@@ -12,7 +12,9 @@
         "url": "https://github.com/ameesters/beacon.git"
     },
     "dependencies": {
-        "pcap": ">=1.2.x"
+        "pcap": ">=1.2.x",
+        "mongodb": ">=1.4.x",
+        "mongoose": ">=3.x.x"
     },
     "os":["linux"],
     "bin": {

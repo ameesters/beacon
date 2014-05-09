@@ -2,15 +2,24 @@
     "name": "Beacon",
     "version": "0.0.1",
     "description": "CLI Traffic analisis and mitigation tool.",
+    "keywords":["network", "traffic", "analisis", "dos", "ddos", "mitigation"],
     "author": "Alexander Meesters <a@m-id.me> (http://m-id.me/)",
     "license" : "BSD-3-Clause",
     "main": "beacon.js",
     "engine": "node >=0.10.26",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ameesters/beacon.git"
+    },
     "dependencies": {
         "pcap": ">=1.2.x"
     },
     "os":["linux"],
     "bin": {
         "beacon-cap": "./beacon.js"
+    },
+    "bugs": {
+        "url": "https://github.com/ameesters/beacon/issues",
+        "email": "a@m-id.me"
     }
 }

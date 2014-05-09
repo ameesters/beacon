@@ -1,0 +1,16 @@
+{
+    "name": "Beacon",
+    "version": "0.0.1",
+    "description": "CLI Traffic analisis and mitigation tool.",
+    "author": "Alexander Meesters <a@m-id.me> (http://m-id.me/)",
+    "license" : "BSD-3-Clause",
+    "main": "beacon.js",
+    "engine": "node >=0.10.26",
+    "dependencies": {
+        "pcap": ">=1.2.x"
+    },
+    "os":["linux"],
+    "bin": {
+        "beacon-cap": "./beacon.js"
+    }
+}

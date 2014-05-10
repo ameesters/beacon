@@ -7,6 +7,10 @@ var pcap = require("pcap"),
     tcp_tracker = new pcap.TCP_tracker(),
     pcap_session = pcap.createSession("", "tcp");
 
+var ip = require('ip');
+
+var models = require('./models');
+
 // some functions to make life easier:
 function in_array(value, array) {
   return array.indexOf(value) > -1;
@@ -22,9 +26,20 @@ tcp_tracker.on('http request complete', function(session, http){
 
 // what goes down:
 tcp_tracker.on('http response complete', function(session, http){
-    if(http.response.headers['Content-Type'].indexOf("text/html") !== -1) {
-        console.log(session.src + " < " + session.dst + ": " + http.request.url + ", " + http.response.headers['Content-Type']);
-    }
+
+    var logThis = new models.realtimeLog({
+        ipAddress: ip.toLong(session.src),
+        request_method: http.request.method,
+        request_url: http.request.url,
+        content_type: http.response.headers['Content-Type']
+    });
+
+    logThis.save(function(err){
+        if(err) return console.error(err);
+    });
+
+    console.log(session.src + " < " + session.dst + ": " + http.request.url + ", " + http.response.headers['Content-Type']);
+
 });
 
 pcap_session.on('packet', function(raw_packet){

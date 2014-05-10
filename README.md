@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ameesters/beacon.svg?branch=master)](https://travis-ci.org/ameesters/beacon)
 CLI Traffic analisis and mitigation tool.
 
 I named this project _Beacon_ because:

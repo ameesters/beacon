@@ -8,3 +8,8 @@ Plus, did i mention it rhymes with _Bacon_?
 
 This project is in the discovery phase, making a inventory of features(feel free to suggest some in the issue tracker),
 what npm modules to use, maybe even write our own if needed.
+
+Right now we have the following dependencies:
+ * node_pcap
+ * mongodb
+ * mongoose

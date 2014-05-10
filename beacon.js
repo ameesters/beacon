@@ -23,14 +23,7 @@ tcp_tracker.on('http request complete', function(session, http){
 // what goes down:
 tcp_tracker.on('http response complete', function(session, http){
     if(http.response.headers['Content-Type'].indexOf("text/html") !== -1) {
-
-        if(in_array(session.src, session.ips)) {
-            session.ips[session.src]++;
-        } else {
-            session.ips[session.src] = 1;
-        }
-
-        console.log("Count: " + ips[session.src] + "|" + session.src + " < " + session.dst + ": " + http.request.url + ", " + http.response.headers['Content-Type']);
+        console.log(session.src + " < " + session.dst + ": " + http.request.url + ", " + http.response.headers['Content-Type']);
     }
 });
 

@@ -1,6 +1,6 @@
 /**
  * Created by Alexander Meesters <a@m-id.me>
- *     iteration 1
+ *     iteration 9
  */
 
 var pcap = require("pcap"),
@@ -10,12 +10,6 @@ var pcap = require("pcap"),
 var ip = require('ip');
 
 var models = require('./models');
-
-// some functions to make life easier:
-function in_array(value, array) {
-  return array.indexOf(value) > -1;
-}
-
 
 console.log("Listening on: " + pcap_session.device_name);
 
@@ -28,14 +22,14 @@ tcp_tracker.on('http request complete', function(session, http){
 tcp_tracker.on('http response complete', function(session, http){
 
     var logThis = new models.realtimeLog({
-        ipAddress: ip.toLong(session.src),
+        ipAddress: ip.toLong(session.dst),
         request_method: http.request.method,
         request_url: http.request.url,
         content_type: http.response.headers['Content-Type']
     });
 
-    logThis.save(function(err){
-        if(err) return console.error(err);
+    logThis.save(function(err) {
+        if(err) return console.log(err);
     });
 
     console.log(session.src + " < " + session.dst + ": " + http.request.url + ", " + http.response.headers['Content-Type']);

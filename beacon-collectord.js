@@ -1,6 +1,8 @@
+#!/usr/bin/env node
+
 /**
  * Created by Alexander Meesters <a@m-id.me>
- *     iteration 9
+ *     iteration 11
  */
 
 var pcap = require("pcap"),
@@ -8,13 +10,22 @@ var pcap = require("pcap"),
     pcap_session = pcap.createSession("", "tcp");
 
 var ip = require('ip');
-
 var models = require('./models');
 
 console.log("Listening on: " + pcap_session.device_name);
 
 // what goes up:
 tcp_tracker.on('http request complete', function(session, http){
+
+    var logThis = new models.realtimeLog({
+        type: 'request',
+        srcIpAddress: ip.toLong(session.src),
+        destIpAddress: ip.toLong(session.dst),
+        requestMethod: http.request.method,
+        requestUrl: http.request.url,
+        contentType: 'N/A'
+    });
+
     console.log(session.src + " > " + session.dst +": " + http.request.url);
 });
 
@@ -22,10 +33,12 @@ tcp_tracker.on('http request complete', function(session, http){
 tcp_tracker.on('http response complete', function(session, http){
 
     var logThis = new models.realtimeLog({
-        ipAddress: ip.toLong(session.dst),
-        request_method: http.request.method,
-        request_url: http.request.url,
-        content_type: http.response.headers['Content-Type']
+        type: 'response',
+        srcIpAddress: ip.toLong(session.src),
+        destIpAddress: ip.toLong(session.dst),
+        requestMethod: http.request.method,
+        requestUrl: http.request.url,
+        contentType: http.response.headers['Content-Type']
     });
 
     logThis.save(function(err) {
@@ -41,10 +54,10 @@ pcap_session.on('packet', function(raw_packet){
     tcp_tracker.track_packet(packet);
 });
 
-    // Check for pcap dropped packets on an interval
-    setInterval(function () {
-        var stats = pcap_session.stats();
-        if (stats.ps_drop > 0) {
-            console.log(ANSI("pcap dropped packets, need larger buffer or less work to do: " + util.inspect(stats), "bold"));
-        }
-    }, 2000);
+// Check for pcap dropped packets on an interval
+setInterval(function () {
+    var stats = pcap_session.stats();
+    if (stats.ps_drop > 0) {
+        console.log(ANSI("pcap dropped packets, need larger buffer or less work to do: " + util.inspect(stats), "bold"));
+    }
+}, 2000);

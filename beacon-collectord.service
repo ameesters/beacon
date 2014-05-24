@@ -1,0 +1,9 @@
+[Service]
+ExecStart=/usr/bin/node /usr/bin/beacon/beacon-collectord.js
+StandardOutput=syslog
+SyslogIdentifier=beacon-collector
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
